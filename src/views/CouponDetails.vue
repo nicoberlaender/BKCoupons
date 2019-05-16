@@ -1,13 +1,21 @@
 <template>
   <div id="couponPage">
     <div id="main">
-      <img v-if="showCode==false" class="mainImg" v-bind:src="`http://burgerking.de${imgUrl}`">
       <div v-if="showCode==true" id="codeWindow">
-          <p style="color:#AD8B7C">Bitte Code an der Kasse vorzeigen</p>
-          <barcode value="Test" format="EAN13">
-              Barcode rendering failed!
-          </barcode>
+          <p style="color:#AD8B7C;margin-top:0;padding-top:20px">Bitte Code an der Kasse vorzeigen</p>
+          <div v-if="showQR == false" id="barcode">
+            <barcode v-bind:value="coupon.barcodes.find(x=>x.type=='EAN-13').value" :options="{ displayValue: false, height: 60, lineColor: '#682F1C'}"></barcode>
+          </div>
+          <div v-if="showQR == true" id="qrcode">
+            <qrcode v-bind:value="coupon.barcodes.find(x=>x.type=='QR').value" size="200" foreground="#682F1C" level="L"></qrcode>
+          </div>
+          <div>
+            <h2 style="color:#AD8B7C">{{coupon.plu}}</h2>
+            <p v-if="showQR==false" v-on:click="showQR=true" style="margin-bottom:0;color:#AD8B7C">Zu QR-Code wechseln</p>
+            <p v-if="showQR==true" v-on:click="showQR=false" style="margin-bottom:0;color:#AD8B7C">Zu EAN-Code wechseln</p>
+          </div>
       </div>
+      <img v-if="showCode==false" class="mainImg" v-bind:src="`http://burgerking.de${imgUrl}`">
       <h1 style="margin-bottom:0">{{coupon.title}}</h1>
       <p style="margin:0;font-size:10px">{{coupon.description}}</p>
       <h2 style="margin-top:5px;color:#AD8B7C">{{coupon.price}}</h2>
@@ -32,7 +40,8 @@
 
 <script>
 import data from "../data";
-import VueBarcode from 'vue-barcode'
+import VueBarcode from '@chenfengyuan/vue-barcode'
+import QrcodeVue from 'qrcode.vue'
 export default {
   name: "coupon",
   data() {
@@ -41,7 +50,8 @@ export default {
       coupon: null,
       id: null,
       imgUrl: "",
-      showCode: false
+      showCode: false,
+      showQR: false
     };
   },
   mounted() {
@@ -53,7 +63,8 @@ export default {
     });
   },
   components: {
-      'barcode': VueBarcode
+    'barcode': VueBarcode,
+    'qrcode': QrcodeVue
   }
 };
 </script>
@@ -99,9 +110,15 @@ p {
     color: #682F1C;
 }
 #codeWindow {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     width: 100%;
-    height:50vh;
+    height: 50vh;
     text-align: center;
+    background-color: white;
 }
 </style>
 
