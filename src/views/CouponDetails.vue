@@ -1,7 +1,13 @@
 <template>
   <div id="couponPage">
     <div id="main">
-      <img class="mainImg" v-bind:src="`http://burgerking.de${imgUrl}`">
+      <img v-if="showCode==false" class="mainImg" v-bind:src="`http://burgerking.de${imgUrl}`">
+      <div v-if="showCode==true" id="codeWindow">
+          <p style="color:#AD8B7C">Bitte Code an der Kasse vorzeigen</p>
+          <barcode value="Test" format="EAN13">
+              Barcode rendering failed!
+          </barcode>
+      </div>
       <h1 style="margin-bottom:0">{{coupon.title}}</h1>
       <p style="margin:0;font-size:10px">{{coupon.description}}</p>
       <h2 style="margin-top:5px;color:#AD8B7C">{{coupon.price}}</h2>
@@ -12,8 +18,11 @@
         alt="King Finder"
       >
     </div>
-    <button id="redeemButton">
+    <button v-if="showCode==false" v-on:click="showCode=true" id="redeemButton">
         <h2>EINLÖSEN</h2>
+    </button>
+    <button v-if="showCode==true" v-on:click="showCode=false" id="redeemButton">
+        <h2>FERTIG</h2>
     </button>
     <div id="footerBar">
         <h2>Footer</h2>
@@ -23,6 +32,7 @@
 
 <script>
 import data from "../data";
+import VueBarcode from 'vue-barcode'
 export default {
   name: "coupon",
   data() {
@@ -30,7 +40,8 @@ export default {
       officialCoupons: null,
       coupon: null,
       id: null,
-      imgUrl: ""
+      imgUrl: "",
+      showCode: false
     };
   },
   mounted() {
@@ -40,6 +51,9 @@ export default {
       this.coupon = response.data.find(x => x.id == this.id);
       this.imgUrl = data.finalURL(this.coupon.images.bgImage.url);
     });
+  },
+  components: {
+      'barcode': VueBarcode
   }
 };
 </script>
@@ -83,6 +97,11 @@ h1, h2 {
 }
 p {
     color: #682F1C;
+}
+#codeWindow {
+    width: 100%;
+    height:50vh;
+    text-align: center;
 }
 </style>
 
