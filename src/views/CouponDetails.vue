@@ -7,7 +7,7 @@
             <barcode v-bind:value="coupon.barcodes.find(x=>x.type=='EAN-13').value" :options="{ displayValue: false, height: 60, lineColor: '#682F1C'}"></barcode>
           </div>
           <div v-if="showQR == true" id="qrcode">
-            <qrcode v-bind:value="coupon.barcodes.find(x=>x.type=='QR').value" size="200" foreground="#682F1C" level="L"></qrcode>
+            <qrcode v-bind:value="coupon.barcodes.find(x=>x.type=='QR').value" size="150" foreground="#682F1C" level="H"></qrcode>
           </div>
           <div>
             <h2 style="color:#AD8B7C">{{coupon.plu}}</h2>
