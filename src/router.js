@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import CouponOverview from './views/CouponOverview.vue'
+import CouponDetails from './views/CouponDetails.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/coupons',
       name: 'coupons',
       component: CouponOverview
+    },
+    {
+      path: '/coupon/:id',
+      name: 'coupon',
+      component: CouponDetails
     }
   ]
 })
