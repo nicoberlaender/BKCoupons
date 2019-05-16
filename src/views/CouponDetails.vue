@@ -88,7 +88,7 @@ export default {
 }
 #redeemButton {
     width: 100%;
-    height: 7%;
+    height: 7vh;
     border: none;
     background-color: orange;
     display: block;
@@ -96,7 +96,7 @@ export default {
 }
 #footerBar {
     width: 100%;
-    height: 7%;
+    height: 7vh;
     background-color: white;
 }
 h1, h2, p {
