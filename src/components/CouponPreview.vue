@@ -17,7 +17,7 @@ export default {
     },
     props: ['coupon'],
     mounted() {
-            this.finalURL = data.finalURL(this.coupon.images.bgImage.url);
+            this.finalURL = data.finalURL(this.coupon.imgUrl);
         }
 }
 </script>

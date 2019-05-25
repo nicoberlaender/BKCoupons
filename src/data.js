@@ -2,8 +2,7 @@ import axios from 'axios'
 
 export default {
     getCoupons() {
-        var officialCoupons = {};
-        var response = axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.burgerking.de/api/o2uvrPdUY57J5WwYs6NtzZ2Knk7TnAUY/v4/de/de/coupons/`);
+        var response = axios.get(`https://bk.nicoberlaender.de/allCoupons.php`);
         return response;
     },
     finalURL(url) {
