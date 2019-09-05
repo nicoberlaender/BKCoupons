@@ -41,16 +41,12 @@
       <p style="color:#AD8B7C;line-height:1;font-size:12px" v-html="coupon.footnote"></p>
     </div>
     <button class="bk" v-if="showCode==false" v-on:click="showCode=true" id="redeemButton">
-      <h2>EINLÖSEN</h2>
+      <h3>EINLÖSEN</h3>
     </button>
     <button class="bk" v-if="showCode==true" v-on:click="showCode=false" id="redeemButton">
-      <h2>FERTIG</h2>
+      <h3>FERTIG</h3>
     </button>
-    <div id="footerBar">
-      <h2 class="bk">
-        <i v-on:click="$router.go(-1)" class="material-icons">arrow_back_ios</i>
-      </h2>
-    </div>
+    <FooterBar />
   </div>
 </template>
 
@@ -58,6 +54,7 @@
 import data from "../data";
 import VueBarcode from "@chenfengyuan/vue-barcode";
 import QrcodeVue from "qrcode.vue";
+import FooterBar from "../components/FooterBar";
 export default {
   name: "coupon",
   data() {
@@ -74,14 +71,14 @@ export default {
     this.id = this.$route.params.id;
     var result = data.getCoupons();
     result.then(response => {
-      console.log(response.data);
       this.coupon = response.data.find(x => x.id == this.id);
       this.imgUrl = data.finalURL(this.coupon.imgUrl);
     });
   },
   components: {
     barcode: VueBarcode,
-    qrcode: QrcodeVue
+    qrcode: QrcodeVue,
+    FooterBar
   }
 };
 </script>
@@ -111,20 +108,14 @@ export default {
   display: block;
   color: white;
 }
-#footerBar {
-  width: 100%;
-  height: 7vh;
-  background-color: white;
-  text-align: left;
-  padding-left: 10px;
+h3 {
+  margin: 0;
+  font-size: 6vw;
 }
-h1,
-h2,
-p {
+h1,h2,p {
   padding-left: 3vw;
 }
-h1,
-h2 {
+h1,h2 {
   text-transform: uppercase;
   color: #682f1c;
 }
