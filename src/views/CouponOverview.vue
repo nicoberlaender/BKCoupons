@@ -14,7 +14,6 @@
 <script>
 import CouponPreview from "../components/CouponPreview";
 import FooterBar from "../components/FooterBar";
-import axios from "axios";
 import data from "../data";
 export default {
   name: "coupons",
@@ -30,6 +29,11 @@ export default {
   mounted() {
     var result = data.getCoupons();
     result.then(response => (this.officialCoupons = response.data));
+  },
+  methods: {
+      sortByPrice() {
+          this.officialCoupons.sort((a,b) => a["price"] < b["price"] ? -1 : 1);
+      }
   }
 };
 </script>

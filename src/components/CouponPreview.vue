@@ -1,5 +1,5 @@
 <template>
-    <div id="preview">
+    <div id="preview" v-if="this.coupon.active == 1">
         <router-link :to="{ name: 'coupon', params: { id: this.coupon.id }}">
             <img v-bind:src="`http://burgerking.de${finalURL}`">
         </router-link>
