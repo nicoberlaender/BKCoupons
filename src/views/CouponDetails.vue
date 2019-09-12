@@ -4,7 +4,9 @@
       <div v-if="showCode==true" id="codeWindow">
         <p
           style="color:#AD8B7C;margin-top:0;padding-top:20px;font-size:14px"
-        >Bitte Code an der Kasse vorzeigen</p>
+        >Bitte Code an der Kasse vorzeigen
+        <span style="color:red;" v-if="timed == true">{{timer}}</span>
+        </p>
         <div class="movingBorder" v-if="showQR == false" id="barcode">
           <barcode
             v-bind:value="coupon.qrCode"
@@ -64,7 +66,9 @@ export default {
       id: null,
       imgUrl: "",
       showCode: false,
-      showQR: false
+      showQR: false,
+      timer: 300,
+      timed: false
     };
   },
   mounted() {
@@ -74,6 +78,21 @@ export default {
       this.coupon = response.data.find(x => x.id == this.id);
       this.imgUrl = data.finalURL(this.coupon.imgUrl);
     });
+  },
+  methods: {
+    decreaseTimer() {
+      this.timer--;
+    },
+    startTimer() {
+      if (!this.timed) {
+        console.log("works");
+        this.timerInterval = setInterval(this.decreaseTimer, 1000);
+      }
+      else {
+        clearInterval(this.timerInterval);
+      }
+      this.timed = !this.timed;
+    }
   },
   components: {
     barcode: VueBarcode,
